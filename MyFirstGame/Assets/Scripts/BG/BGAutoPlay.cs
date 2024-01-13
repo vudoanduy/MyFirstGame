@@ -5,8 +5,7 @@ using UnityEngine;
 public class BGAutoPlay : MonoBehaviour
 {
     Material material;
-    [Range(-1f,1f)] 
-    public float scrollSpeed = 0f;
+    private float scrollSpeed = 0.2f;
 
     void Start()
     {
