@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    protected void Move(float speed)
+    public void Move(float speed)
     {
         if(Input.GetKey(KeyCode.A))
         {
@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
     
-    protected void Jump(float force)
+    public void Jump(float force)
     {
         countTime += Time.deltaTime;
         if(countJump > 1){
@@ -74,7 +74,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    protected void Idle(){
+    public void Idle(){
         if(player.velocityX == 0 && player.velocityY == 0){
             anim.Play("playerIdle");
         }
