@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ManageMusic : MonoBehaviour
 {
     [Header("Audio Source")]
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource soundSource;
+    public AudioSource musicSource;
+    public AudioSource soundSource;
     [Header("Audio Clip")]
     public AudioClip backGround;
     public AudioClip gameOver;
@@ -20,8 +17,7 @@ public class ManageMusic : MonoBehaviour
     int stateM, stateS;
 
     void Start(){
-        musicSource.clip = backGround;
-        musicSource.Play();
+        SetSource(musicSource,backGround);
         musicSource.loop = true;
         musicSource.volume = soundSource.volume = 0.5f;
         stateM = stateS = 1;
@@ -31,26 +27,45 @@ public class ManageMusic : MonoBehaviour
     public void BtnMusic(){
         stateM = (stateM + 1) % 2;
         if(stateM == 0){
-            musicSource.volume = 0f;
-            stateMusic.text = "OFF";
+            SetVolumn(musicSource, 0, stateMusic, "OFF");
         } else {
-            musicSource.volume = 0.5f;
-            stateMusic.text = "ON";
+            SetVolumn(musicSource, 0.5f, stateMusic, "ON");
         }
     }
     public void BtnSound(){
         stateS = (stateS + 1) % 2;
         if(stateM == 0){
-            soundSource.volume = 0f;
-            stateSound.text = "OFF";
+            SetVolumn(soundSource, 0, stateMusic, "OFF");
         } else {
-            soundSource.volume = 0.5f;
-            stateSound.text = "ON";
+            SetVolumn(soundSource, 0.5f, stateMusic, "ON");
         }
     }
     public void GameOver(){
-        musicSource.clip = gameOver;
-        musicSource.Play();
-        musicSource.loop = false;
+        SetSource(soundSource, gameOver);
+        SetSource(musicSource, 0);
+    }
+    public void Victory(){
+        SetSource(soundSource, victory);
+        SetSource(musicSource, 0);
+    }
+    public void CollectCoin(){
+        SetSource(soundSource, collectCoin);
+    }
+
+    // ----------//
+    public void SetSource(AudioSource audioSource, AudioClip audioClip){
+        audioSource.clip = audioClip;
+        audioSource.Play();
+    }
+    public void SetSource(AudioSource audioSource,int isPause){
+        if(isPause == 0){
+            audioSource.Pause();
+        } else {
+            audioSource.UnPause();
+        }
+    }
+    public void SetVolumn(AudioSource audioSource, float value, TextMeshProUGUI textMeshProUGUI, string state){
+        audioSource.volume = value;
+        textMeshProUGUI.text = state;
     }
 }

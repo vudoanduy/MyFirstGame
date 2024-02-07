@@ -1,23 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
+[Serializable]
 public class PlayerInfo : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hpInfo;
 
     ManageMusic manageMusic;
+    ManageGUILevel manageGUILevel;
+    CoinInfo coinInfo;
 
     protected int maxHP;
-    protected int currentHP;
+    protected int currentHP; // Money the player actually owns
     float timeNoDamage = 2f;
 
     void Start(){
         manageMusic = GameObject.Find("ManageAudio").GetComponent<ManageMusic>();
+        manageGUILevel = GameObject.Find("ManageGUILevel").GetComponent<ManageGUILevel>();
+        coinInfo = GameObject.Find("ManageCoin").GetComponent<CoinInfo>();
         currentHP = maxHP = 2;
         hpInfo.text = currentHP + " / " + maxHP;
     }
@@ -33,12 +34,21 @@ public class PlayerInfo : MonoBehaviour
             currentHP--;
             hpInfo.text = currentHP + " / " + maxHP;
             if(currentHP == 0){
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
                 Debug.Log("Game Over");
                 manageMusic.GameOver();
+                manageGUILevel.PlayerDie();
             }
         }
+        if(other.gameObject.tag == "Coin"){
+            manageMusic.SetSource(manageMusic.soundSource, manageMusic.collectCoin);
+            Destroy(other.gameObject);
+            coinInfo.AddCoin(1);
+        }
     }
-
-    
+    public void MaxHP(){
+        currentHP = maxHP;
+        hpInfo.text = currentHP + " / " + maxHP;
+        manageMusic.SetSource(manageMusic.musicSource, 1);
+    }
 }

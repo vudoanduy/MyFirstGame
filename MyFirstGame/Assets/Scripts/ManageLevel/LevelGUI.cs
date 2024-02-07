@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -75,8 +73,10 @@ public class LevelGUI : MonoBehaviour
         currentPage = btnPage;
         if(currentPage == 1){
             SetActiveBtn("Prev", false);
+            SetActiveBtn("Next", true);
         } else if(currentPage == maxPage){
             SetActiveBtn("Next", false);
+            SetActiveBtn("Prev", true);
         } else {
             SetActiveBtn("Prev", true);
             SetActiveBtn("Next", true);
