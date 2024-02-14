@@ -35,10 +35,6 @@ public class ManageGUILevel : MonoBehaviour
         playerInfo.MaxHP();
         SetBool(false);
     }
-    public void Die(){
-        SceneManager.LoadScene("Main");
-        SetBool(false);
-    }
     //
     public int GetLevelCurrent(){
         return this.levelCurrent;

@@ -8,8 +8,10 @@ public class PlayerInfo : MonoBehaviour
 
     ManageMusic manageMusic;
     ManageGUILevel manageGUILevel;
+    ManageMenu manageMenu;
     CoinInfo coinInfo;
     Victory victory;
+    PlayerMove playerMove;
 
     protected int maxHP;
     protected int currentHP; // Money the player actually owns
@@ -20,8 +22,10 @@ public class PlayerInfo : MonoBehaviour
         manageGUILevel = GameObject.Find("ManageGUILevel").GetComponent<ManageGUILevel>();
         coinInfo = GameObject.Find("ManageCoin").GetComponent<CoinInfo>();
         victory = GameObject.Find("Victory").GetComponent<Victory>();
+        manageMenu = GameObject.Find("ManageMenu").GetComponent<ManageMenu>();
+        playerMove = GetComponent<PlayerMove>();
         currentHP = maxHP = 2;
-        hpInfo.text = currentHP + " / " + maxHP;
+        hpInfo.text = "HP: " + currentHP + " / " + maxHP;
     }
 
     void Update(){
@@ -34,7 +38,7 @@ public class PlayerInfo : MonoBehaviour
                 if(timeNoDamage < 2f) return;
                 timeNoDamage = 0;
                 currentHP--;
-                hpInfo.text = currentHP + " / " + maxHP;
+                hpInfo.text = "HP: " + currentHP + " / " + maxHP;
                 if(currentHP == 0){
                     gameObject.SetActive(false);
                     Debug.Log("Game Over");
@@ -50,6 +54,8 @@ public class PlayerInfo : MonoBehaviour
             case "Door":
                 SetUnlockLevel();
                 victory.VictoryLevel();
+                Destroy(playerMove);
+                manageMenu.SetBool(false);
                 break;
             default:
                 break;
@@ -57,7 +63,7 @@ public class PlayerInfo : MonoBehaviour
     }
     public void MaxHP(){
         currentHP = maxHP;
-        hpInfo.text = currentHP + " / " + maxHP;
+        hpInfo.text = "HP: " + currentHP + " / " + maxHP;
         manageMusic.SetSource(manageMusic.musicSource, 1);
     }
     public void SetUnlockLevel(){
@@ -68,4 +74,5 @@ public class PlayerInfo : MonoBehaviour
         }
         SaveManage.Instance.SetMaxLevel(levelCurrent + 1);
     }
+
 }

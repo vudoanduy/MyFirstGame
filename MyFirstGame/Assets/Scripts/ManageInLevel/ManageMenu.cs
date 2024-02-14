@@ -11,7 +11,7 @@ public class ManageMenu : MonoBehaviour
         SetBool(false);
         settingGUI.SetActive(false);
     }
-    private void SetBool(bool active){
+    public void SetBool(bool active){
         menuGUI.SetActive(active);
         bgMenu.SetActive(active);
     }
