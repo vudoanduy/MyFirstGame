@@ -312,7 +312,7 @@ public class LeanTween : MonoBehaviour {
     * @method LeanTween.init
     * @param {integer} maxSimultaneousTweens:int The maximum number of tweens you will use, make sure you don't go over this limit, otherwise the code will throw an error
     * @example
-    *   LeanTween.init( 800 );
+    *   LeanTween.init(800);
     */
     public static void init(int maxSimultaneousTweens ){
         init(maxSimultaneousTweens, maxSequences);
@@ -454,8 +454,7 @@ public class LeanTween : MonoBehaviour {
                             AudioSource.PlayClipAtPoint(onCompleteParam, to, vol);
                     }else {
                         removeTween(j);
-                    }
-                        
+                    }                       
                 }
             }
 
@@ -771,7 +770,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     [System.Obsolete("Use 'resume( id )' instead")]
-    public static void resume( GameObject gameObject, int uniqueId ){
+    public static void resume(GameObject gameObject, int uniqueId){
         resume( uniqueId );
     }
 
@@ -800,7 +799,7 @@ public class LeanTween : MonoBehaviour {
     * @method LeanTween.resume
     * @param {GameObject} gameObject:GameObject GameObject whose tweens you want to resume
     */
-    public static void resume( GameObject gameObject ){
+    public static void resume(GameObject gameObject){
         Transform trans = gameObject.transform;
         for(int i = 0; i <= tweenMaxSearch; i++){
             if(tweens[i].trans==trans)
@@ -1034,7 +1033,7 @@ public class LeanTween : MonoBehaviour {
         tween.to = to;
         tween.time = time;
 
-        if (tween.time <= 0f)
+        if (tween.time <= 0f) 
             tween.updateInternal();
         //tween.hasPhysics = gameObject.rigidbody!=null;
 

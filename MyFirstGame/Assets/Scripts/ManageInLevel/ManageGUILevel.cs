@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,12 +9,20 @@ public class ManageGUILevel : MonoBehaviour
     [SerializeField] GameObject die;
     GameObject player;
     PlayerInfo playerInfo;
+    int levelCurrent;
+    string nameLevel;
 
     void Start(){
+        nameLevel = SceneManager.GetActiveScene().name;
+        levelCurrent = Convert.ToInt32(nameLevel);
         player = GameObject.Find("Player").gameObject;
         playerInfo = player.GetComponent<PlayerInfo>();
         SetBool(false);
     }
+    void Update(){
+        
+    }
+    // Button
     private void SetBool(bool active){
         revival.SetActive(active);
         die.SetActive(active);
@@ -29,5 +38,12 @@ public class ManageGUILevel : MonoBehaviour
     public void Die(){
         SceneManager.LoadScene("Main");
         SetBool(false);
+    }
+    //
+    public int GetLevelCurrent(){
+        return this.levelCurrent;
+    }
+    public string GetNameLevel(){
+        return nameLevel;
     }
 }
