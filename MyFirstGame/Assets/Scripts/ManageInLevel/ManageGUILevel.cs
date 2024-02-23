@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,7 +33,7 @@ public class ManageGUILevel : MonoBehaviour
     }
     public void Revival(){
         player.SetActive(true);
-        playerInfo.MaxHP();
+        
         SetBool(false);
     }
     //

@@ -1,10 +1,11 @@
-using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hpInfo;
+    [SerializeField] Image hpImg;
 
     ManageMusic manageMusic;
     ManageGUILevel manageGUILevel;
@@ -15,7 +16,8 @@ public class PlayerInfo : MonoBehaviour
 
     protected int maxHP;
     protected int currentHP; // Money the player actually owns
-    float timeNoDamage = 2f;
+    bool iImmortal;
+
 
     void Start(){
         manageMusic = GameObject.Find("ManageAudio").GetComponent<ManageMusic>();
@@ -24,34 +26,29 @@ public class PlayerInfo : MonoBehaviour
         victory = GameObject.Find("Victory").GetComponent<Victory>();
         manageMenu = GameObject.Find("ManageMenu").GetComponent<ManageMenu>();
         playerMove = GetComponent<PlayerMove>();
-        currentHP = maxHP = 2;
-        hpInfo.text = "HP: " + currentHP + " / " + maxHP;
+        currentHP = maxHP = SaveManage.Instance.GetMaxHP();
+        UpdateHP();
     }
 
     void Update(){
-        timeNoDamage += Time.deltaTime;
+        
     }
 
     void OnTriggerEnter2D(Collider2D other){
         switch(other.gameObject.tag){
             case "Enemy":
-                if(timeNoDamage < 2f) return;
-                timeNoDamage = 0;
-                currentHP--;
-                hpInfo.text = "HP: " + currentHP + " / " + maxHP;
-                if(currentHP == 0){
-                    gameObject.SetActive(false);
-                    Debug.Log("Game Over");
-                    manageMusic.GameOver();
-                    manageGUILevel.PlayerDie();
-                }
+                if(iImmortal) return;
+                SetCurrentHP(currentHP - 3);
+                SetOnImmortal();
+                Invoke("SetOffImmortal", 2);
                 break;
             case "Coin":
-                manageMusic.SetSource(manageMusic.soundSource, manageMusic.collectCoin);
+                manageMusic.CollectCoin();
                 Destroy(other.gameObject);
                 coinInfo.AddCoin(1);
                 break;
             case "Door":
+                manageMusic.Victory();
                 SetUnlockLevel();
                 victory.VictoryLevel();
                 Destroy(playerMove);
@@ -61,11 +58,6 @@ public class PlayerInfo : MonoBehaviour
                 break;
         }
     }
-    public void MaxHP(){
-        currentHP = maxHP;
-        hpInfo.text = "HP: " + currentHP + " / " + maxHP;
-        manageMusic.SetSource(manageMusic.musicSource, 1);
-    }
     public void SetUnlockLevel(){
         int levelCurrent = manageGUILevel.GetLevelCurrent();
         int maxLevelCurrent = SaveManage.Instance.GetMaxLevel();
@@ -74,5 +66,48 @@ public class PlayerInfo : MonoBehaviour
         }
         SaveManage.Instance.SetMaxLevel(levelCurrent + 1);
     }
+    // HP
+    public void SetCurrentHP(int currentHP){
+        if(currentHP < 0){
+            currentHP = 0;
+            gameObject.SetActive(false);
+            Debug.Log("Game Over");
+            manageMusic.GameOver();
+            manageGUILevel.PlayerDie();
+        }
+        this.currentHP = currentHP;
+        UpdateHP();
+    }
+    public void SetMaxHP(int maxHP){
+        this.maxHP = maxHP;
+        UpdateHP();
+    }
+    public void SetOnImmortal(){
+        this.iImmortal = true;
+    }
+    public void SetOffImmortal(){
+        this.iImmortal = false;
+    }
 
+    public int GetCurrentHP(){
+        return this.currentHP;
+    }
+    public int GetMaxHP(){
+        return this.maxHP;
+    }
+    public bool GetIImmortal(){
+        return this.iImmortal;
+    }
+
+    public void RestoreHP(int num){
+        currentHP += num;
+        if(currentHP > maxHP){
+            currentHP = maxHP;
+        }
+        UpdateHP();
+    }
+    public void UpdateHP(){
+        hpInfo.text = currentHP + " / " + maxHP;
+        hpImg.fillAmount = (float)currentHP / (float)maxHP;
+    }
 }

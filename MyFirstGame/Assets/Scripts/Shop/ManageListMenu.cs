@@ -14,10 +14,10 @@ public class ManageListMenu: MonoBehaviour
     public void Item(){
         manageShopGUI.SetColor(1);      
     }   
-    public void Pack(){
-        manageShopGUI.SetColor(2);     
-    } 
     public void Pet(){
-        manageShopGUI.SetColor(3);
+        manageShopGUI.SetColor(2);
     }
+    public void Pack(){
+        manageShopGUI.SetColor(3);     
+    } 
 }
