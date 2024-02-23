@@ -58,15 +58,19 @@ public class SaveManage : MonoBehaviour
     }
     public void SetMaxHP(int maxHP){
         this.maxHP = maxHP;
+        SaveGame();
     }
     public void SetSpeed(float speed){
         this.speed = speed;
+        SaveGame();
     }
     public void SetForce(float force){
         this.force = force;
+        SaveGame();
     }
     public void SetScale(Vector3 scale){
         this.scale = scale;
+        SaveGame();
     }
     public void SetCheckSkin(List<int> checkSkin){
         this.checkSkin = checkSkin;
@@ -125,6 +129,11 @@ public class SaveManage : MonoBehaviour
             this.maxLevelCurrent = obj.maxLevelCurrent;
             this.selectedSkin = obj.selectedSkin;
             this.checkSkin = obj.checkSkin;
+            this.maxHP = obj.maxHP;
+            this.speed = obj.speed;
+            this.force = obj.force;
+            this.scale = obj.scale;
+            this.myNumItem = obj.myNumItem;
         }
     }
     void OnApplicationQuit(){

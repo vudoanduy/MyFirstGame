@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -10,17 +11,38 @@ public class ManageCoin : MonoBehaviour
     [SerializeField] TextMeshProUGUI iBuy;
     [SerializeField] GameObject notifi;
     [SerializeField] GameObject notifiError;
+    [SerializeField] GameObject listItemCurrent;
+
+    GameObject[] items;
     int coinTotal;
     int selectingItem;
 
     int[] listCostCoin = {50,100,200,500,2000,10000,50000};
-    int[] listCostItem = {200,500,1500,1000,1000,1000,1000};
+    int[] listCostItem = {0,500,1500,1000,1000,1000,1000};
+    List<int> myNumItem;
 
     void Start(){
         coinTotal = SaveManage.Instance.GetCoinTotal();
+        if(SaveManage.Instance.GetMyNumItem().Count == 0){
+            myNumItem = new List<int>(){0,0,0,0,0,0,0};
+            SaveManage.Instance.SetMyNumItem(myNumItem);
+        } else {
+            myNumItem = SaveManage.Instance.GetMyNumItem();
+        }
+        items = new GameObject[listItemCurrent.transform.childCount];
         UpdateCoin();
+        SetUpStart();
         notifi.SetActive(false);
     }
+
+    public void SetUpStart(){
+        int count = listItemCurrent.transform.childCount;
+        for(int i = 0; i < count; i++){
+            items[i] = listItemCurrent.transform.GetChild(i).gameObject;
+            items[i].transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = myNumItem[i].ToString();
+        }
+    }
+
     // Button
     public void GetFreeCoin(){
         coinTotal += listCostCoin[0];
@@ -74,22 +96,32 @@ public class ManageCoin : MonoBehaviour
         notifi.SetActive(false);
     }
     public void Yes(){
+        if(myNumItem[selectingItem] == 99){
+            return;
+        }
         CheckCoin(listCostItem[selectingItem]);
     }
     //
-    public void CheckCoin(int selectingItem){
-        int coin = coinTotal - selectingItem;
+    public void CheckCoin(int costItem){
+        int coin = coinTotal - costItem;
         if(coin < 0){
             NotifiError();
         } else {
+            myNumItem[selectingItem]++;
+            UpdateNumItem();
             coinTotal = coin;
             UpdateCoin();
             SaveManage.Instance.SetCoinTotal(coinTotal);
+            SaveManage.Instance.SetMyNumItem(myNumItem);
         }
         notifi.SetActive(false);
     }
     public void NotifiError(){
         notifiError.transform.localScale = new Vector3(1,1,1);
         LeanTween.scale(notifiError, Vector3.zero, 0.2f).setDelay(1f).setEase(LeanTweenType.linear);
+    }
+    //
+    public void UpdateNumItem(){
+        items[selectingItem].transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = myNumItem[selectingItem].ToString();
     }
 }

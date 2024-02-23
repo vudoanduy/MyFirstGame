@@ -26,7 +26,7 @@ public class ManageInventory : MonoBehaviour
     GameObject[] items;
     TextMeshProUGUI[] countItemsText;
 
-    int[] myNumItemDefault = {1,2,3,4,5,6,7};
+    int[] myNumItemDefault = {0,0,0,0,0,0,0};
     int countItems, selectedItem;
     int currentHP, maxHP;
     float timeSpeedCurrent = 20, timeGiantCurrent = 10, timeImmortalCurrent = 5, timeMagnetCurrent = 30;
@@ -55,15 +55,16 @@ public class ManageInventory : MonoBehaviour
 
     public void SetUpStart(){
         // setup myNumItem
-        // if(SaveManage.Instance.GetMyNumItem().Count != 0){
-        //     myNumItem = SaveManage.Instance.GetMyNumItem();
-        // } else {
+        if(SaveManage.Instance.GetMyNumItem().Count != 0){
+            myNumItem = SaveManage.Instance.GetMyNumItem();
+        } else {
             myNumItem = new List<int>(myNumItemDefault);
-            int count = myNumItem.Count;
-        // }
-        // for(int i = 0; i < myNumItem.Count; i++){
+            SaveManage.Instance.SetMyNumItem(myNumItem);
+        }
+        int count = myNumItem.Count;
+        for(int i = 0; i < myNumItem.Count; i++){
 
-        // }
+        }
         // setup others
         for(int i = 0; i < countItems; i++){
             items[i] = listItem.transform.GetChild(i).gameObject;
@@ -144,9 +145,7 @@ public class ManageInventory : MonoBehaviour
                 playerMove.SetScale(scale);
                 player.transform.localScale = scale;
                 // Increase speed and force
-                speed = playerMove.GetSpeed();
                 force = playerMove.GetForce();
-                playerMove.SetSpeed(speed * 1.3f);
                 playerMove.SetForce(force * 1.3f);
                 useGiant = true;
                 break;
@@ -215,7 +214,6 @@ public class ManageInventory : MonoBehaviour
                 SetDefaultHP();
                 SetDefaultForce();
                 SetDefaultScale();
-                SetDefaultSpeed();
                 useGiant = false;
                 timeGiantCurrent = timeGiantDefault;
                 DestroyGameObject("giantImg");
