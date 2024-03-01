@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/Scenes/ManageLevel.unity
     guid: 8aea2618e373ae34e89797eeba227b86
   - enabled: 1
-    path: Assets/Scenes/ListLevelScene/1.unity
+    path: Assets/Scenes/ListLevelScene/2.unity
     guid: a92edc85c20f5a6489aba39353cde35a
   - enabled: 1
-    path: Assets/Scenes/ListLevelScene/2.unity
+    path: Assets/Scenes/ListLevelScene/1.unity
     guid: 3ba122d2971e5aa4693128ad7c70a749
   - enabled: 1
     path: Assets/Scenes/ListLevelScene/3.unity

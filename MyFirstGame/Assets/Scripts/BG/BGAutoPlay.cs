@@ -1,12 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BGAutoPlay : MonoBehaviour
 {
     Material material;
-    private float scrollSpeed = 0.2f;
 
+    [Header("Setting parameters")]
+    [Range(0,1)]
+    public float scrollSpeed = 0.2f;
+
+    //
     void Start()
     {
         material = gameObject.GetComponent<Renderer>().material;        
@@ -14,6 +16,6 @@ public class BGAutoPlay : MonoBehaviour
 
     void Update()
     {
-        material.mainTextureOffset += new Vector2(scrollSpeed * Time.deltaTime / 5f, 0);
+        material.mainTextureOffset += Vector2.right * scrollSpeed * Time.deltaTime;
     }
 }

@@ -1,28 +1,41 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ManageGUILevel : MonoBehaviour
 {
     [Header("Button when player died")]
-    [SerializeField] GameObject revival;
-    [SerializeField] GameObject die;
+    [SerializeField] GameObject revival, die;
+
     GameObject player;
     PlayerInfo playerInfo;
-    int levelCurrent;
+
+    int levelCurrent, maxHP;
     string nameLevel;
 
+    //
     void Start(){
-        nameLevel = SceneManager.GetActiveScene().name;
-        levelCurrent = Convert.ToInt32(nameLevel);
-        player = GameObject.Find("Player").gameObject;
-        playerInfo = player.GetComponent<PlayerInfo>();
+        SetUpStart();
         SetBool(false);
     }
-    void Update(){
-        
+
+    //
+    public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
     }
+
+    public void SetParameter(){
+        nameLevel = SceneManager.GetActiveScene().name;
+        levelCurrent = Convert.ToInt32(nameLevel);
+        maxHP =SaveManage.Instance.GetMaxHP();
+    }
+
+    public void InitializatingObject(){
+        player = GameObject.Find("Player").gameObject;
+        playerInfo = player.GetComponent<PlayerInfo>();
+    }
+
     // Button
     private void SetBool(bool active){
         revival.SetActive(active);
@@ -32,10 +45,11 @@ public class ManageGUILevel : MonoBehaviour
         SetBool(true);
     }
     public void Revival(){
-        player.SetActive(true);
-        
+        player.SetActive(true);       
         SetBool(false);
+        playerInfo.SetCurrentHP(maxHP);
     }
+
     //
     public int GetLevelCurrent(){
         return this.levelCurrent;

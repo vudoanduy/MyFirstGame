@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Coin
   - Door
+  - Block
+  - NoticeBoard
+  - water
   layers:
   - Default
   - TransparentFX
@@ -16,9 +19,9 @@ TagManager:
   - Water
   - UI
   - Coin
-  - 
-  - 
-  - 
+  - Ground
+  - BGCam
+  - Player
   - 
   - 
   - 

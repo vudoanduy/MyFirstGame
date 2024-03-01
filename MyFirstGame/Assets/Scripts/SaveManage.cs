@@ -11,21 +11,18 @@ public class SaveManage : MonoBehaviour
         set{}
     }
 
-    public int coinTotal = 0;
-    public int maxLevelCurrent = 1;
-    public int selectedSkin = 0;
-    public int maxHP = 5;
-    public float speed = 8f;
-    public float force = 10f;
-    public Vector3 scale = new Vector3(1,1,1);
+    public int coinTotal = 0, maxLevelCurrent = 1, selectedSkin = 0, maxHP = 5;
     private int totalLevel = 0;
 
-    public List<int> checkSkin = new List<int>(1);
-    public List<int> myNumItem = new List<int>(1);
+    public float speed = 8f, force = 10f;
+
+    public Vector3 scale = new Vector3(1,1,1);
+
+    public List<int> checkSkin = new List<int>(1), myNumItem = new List<int>(1);
 
     public static string SAVEDATA = "SAVEDATA";
     
-
+    //
     void Awake(){
         if(instance == null){
             instance = this;
@@ -38,6 +35,7 @@ public class SaveManage : MonoBehaviour
         LoadGame();
     }
 
+    //
     public void SetCoinTotal(int coinTotal){
         this.coinTotal = coinTotal;
         SaveGame();
@@ -81,6 +79,7 @@ public class SaveManage : MonoBehaviour
         SaveGame();
     }
 
+    //
     public int GetCoinTotal(){
         return this.coinTotal;
     }

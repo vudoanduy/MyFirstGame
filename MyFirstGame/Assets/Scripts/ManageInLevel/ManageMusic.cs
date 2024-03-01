@@ -4,26 +4,35 @@ using UnityEngine;
 public class ManageMusic : MonoBehaviour
 {
     [Header("Audio Source")]
-    public AudioSource musicSource;
-    public AudioSource soundSource;
+    public AudioSource musicSource, soundSource;
+
     [Header("Audio Clip")]
-    public AudioClip backGround;
-    public AudioClip gameOver;
-    public AudioClip collectCoin;
-    public AudioClip victory;
-    [Header("State")]
-    [SerializeField] TextMeshProUGUI stateMusic;
-    [SerializeField] TextMeshProUGUI stateSound;
+    public AudioClip backGround, gameOver, collectCoin, victory, destroyBlock;
+
+    [Header("TextMeshProGUI")]
+    [SerializeField] TextMeshProUGUI stateMusic, stateSound;
+
     int stateM, stateS;
 
+    //
     void Start(){
         SetSource(musicSource,backGround);
+        SetUpStart();
+    }
+
+    //
+    public void SetUpStart(){
+        SetParameter();
+    }
+
+    public void SetParameter(){
         musicSource.loop = true;
         musicSource.volume = soundSource.volume = 0.5f;
         stateM = stateS = 1;
         stateMusic.text = stateSound.text = "ON"; 
     }
 
+    //
     public void BtnMusic(){
         stateM = (stateM + 1) % 2;
         if(stateM == 0){
@@ -50,6 +59,9 @@ public class ManageMusic : MonoBehaviour
     }
     public void CollectCoin(){
         SetSource(soundSource, collectCoin);
+    }
+    public void DestroyBlock(){
+        SetSource(soundSource, destroyBlock);
     }
 
     // ----------//

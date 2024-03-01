@@ -9,25 +9,22 @@ using UnityEngine.UI;
 public class ManageLevel : MonoBehaviour
 {
     public static ManageLevel Instance;
+
+    [Header("GameObject")]
     [SerializeField] GameObject listPage;
 
     GameObject[] miniPage;
+
     List<GameObject> levels;
     List<TextMeshProUGUI> texts;
 
-    int countPage;
-    int totalLevel;
+    int countPage, totalLevel;
     public int maxLevelCurrent;
 
+    //
     void Start(){
-
-        countPage = listPage.transform.childCount;
-        maxLevelCurrent = SaveManage.Instance.GetMaxLevel();
-
-        miniPage = new GameObject[countPage];
-        levels = new List<GameObject>();
-        texts = new List<TextMeshProUGUI>();
         SetUpStart();
+        UnlockLevel(maxLevelCurrent);
         SaveManage.Instance.SetTotalLevel(totalLevel);
     }
     void Update(){
@@ -39,7 +36,23 @@ public class ManageLevel : MonoBehaviour
         }
     }
 
+    //
     public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+    }
+
+    public void SetParameter(){
+        countPage = listPage.transform.childCount;
+        maxLevelCurrent = SaveManage.Instance.GetMaxLevel();
+    }
+
+    public void InitializatingObject(){
+        miniPage = new GameObject[countPage];
+        levels = new List<GameObject>();
+        texts = new List<TextMeshProUGUI>();
+
+        //
         for(int i = 0; i < countPage; i++){
             miniPage[i] = listPage.transform.GetChild(i).gameObject;
             int countChild = miniPage[i].transform.childCount;
@@ -54,13 +67,14 @@ public class ManageLevel : MonoBehaviour
             texts[i].text = Convert.ToString(i + 1);
             levels[i].gameObject.GetComponent<Button>().interactable = false;
         }
-        UnlockLevel(maxLevelCurrent);
     }
 
+    //
     public void Home(){
         SceneManager.LoadScene("Main");
     }
 
+    //
     public void SetScene(){
        string s =  EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
        SceneManager.LoadScene(s); 
@@ -72,6 +86,8 @@ public class ManageLevel : MonoBehaviour
             levels[i].gameObject.GetComponent<Button>().interactable = true;
         }
     }
+
+    //
     public int GetTotalLevel(){
         return this.totalLevel;
     }

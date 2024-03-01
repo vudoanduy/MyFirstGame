@@ -7,21 +7,34 @@ using UnityEngine.EventSystems;
 
 public class ManageCoin : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI coinTotalText;
-    [SerializeField] TextMeshProUGUI iBuy;
-    [SerializeField] GameObject notifi;
-    [SerializeField] GameObject notifiError;
-    [SerializeField] GameObject listItemCurrent;
+    [Header("GameObject")]
+    [SerializeField] GameObject notifi, notifiError, listItemCurrent;
+
+    [Header("TextMeshProGUI")]
+    [SerializeField] TextMeshProUGUI coinTotalText, iBuy;
 
     GameObject[] items;
-    int coinTotal;
-    int selectingItem;
 
-    int[] listCostCoin = {50,100,200,500,2000,10000,50000};
-    int[] listCostItem = {0,500,1500,1000,1000,1000,1000};
+    int coinTotal, selectingItem;
+
+    int[] listCostCoin = {50,100,200,500,2000,10000,50000}, listCostItem = {0,500,1500,1000,1000,1000,1000};
+
     List<int> myNumItem;
 
+    //
     void Start(){
+        SetUpStart();
+        UpdateCoin();
+    }
+
+    //
+    public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+        notifi.SetActive(false);
+    }
+
+    public void SetParameter(){
         coinTotal = SaveManage.Instance.GetCoinTotal();
         if(SaveManage.Instance.GetMyNumItem().Count == 0){
             myNumItem = new List<int>(){0,0,0,0,0,0,0};
@@ -30,12 +43,9 @@ public class ManageCoin : MonoBehaviour
             myNumItem = SaveManage.Instance.GetMyNumItem();
         }
         items = new GameObject[listItemCurrent.transform.childCount];
-        UpdateCoin();
-        SetUpStart();
-        notifi.SetActive(false);
     }
 
-    public void SetUpStart(){
+    public void InitializatingObject(){
         int count = listItemCurrent.transform.childCount;
         for(int i = 0; i < count; i++){
             items[i] = listItemCurrent.transform.GetChild(i).gameObject;

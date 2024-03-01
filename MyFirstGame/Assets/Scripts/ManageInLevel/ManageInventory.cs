@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ManageInventory : MonoBehaviour
 {
-    [SerializeField] GameObject inventory;
-    [SerializeField] GameObject listItem;
-    [SerializeField] GameObject player;
+    [Header("GameObject")]
+    [SerializeField] GameObject inventory, listItem, player, listItemUsed, itemUsed;
+
     [Header("Source Img")]
-    [SerializeField] Sprite speedSprite;
-    [SerializeField] Sprite giantSprite;
-    [SerializeField] Sprite immortalSprite;
-    [SerializeField] Sprite magnetSprite;
-    [Header("ListItemUsed")]
-    [SerializeField] GameObject listItemUsed;
-    [SerializeField] GameObject itemUsed;
+    [SerializeField] Sprite speedSprite, giantSprite, immortalSprite, magnetSprite;
+
     PlayerInfo playerInfo;
     PlayerMove playerMove;
     CoinInfo coinInfo;
@@ -26,34 +20,44 @@ public class ManageInventory : MonoBehaviour
     GameObject[] items;
     TextMeshProUGUI[] countItemsText;
 
+    int countItems, selectedItem, currentHP, maxHP;
     int[] myNumItemDefault = {0,0,0,0,0,0,0};
-    int countItems, selectedItem;
-    int currentHP, maxHP;
+
     float timeSpeedCurrent = 20, timeGiantCurrent = 10, timeImmortalCurrent = 5, timeMagnetCurrent = 30;
     float timeSpeedDefault = 20, timeGiantDefault = 10, timeImmortalDefault = 5, timeMagnetDefault = 30;
     float speed, force;
-    bool iUseItem;
-    bool useSpeed, useGiant, useImmortal, useMagnet;
+
+    bool iUseItem, useSpeed, useGiant, useImmortal, useMagnet;
 
     List<int> myNumItem;
 
-
+    //
     void Start(){
-        countItems = listItem.transform.childCount;
-        items = new GameObject[countItems];
-        countItemsText = new TextMeshProUGUI[countItems];
-        playerInfo = GameObject.Find("Player").GetComponent<PlayerInfo>();
-        playerMove = GameObject.Find("Player").GetComponent<PlayerMove>();
-        coinInfo = GameObject.Find("ManageCoin").GetComponent<CoinInfo>();
-        inventory.SetActive(false);
-        useSpeed = useGiant = useImmortal = useMagnet = false;
         SetUpStart();
     }
     void Update(){
         CheckTime();
     }
 
+    //
     public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+        inventory.SetActive(false);
+    }
+
+    public void SetParameter(){
+        countItems = listItem.transform.childCount;
+        useSpeed = useGiant = useImmortal = useMagnet = false;
+    }
+
+    public void InitializatingObject(){
+        items = new GameObject[countItems];
+        countItemsText = new TextMeshProUGUI[countItems];
+        playerInfo = GameObject.Find("Player").GetComponent<PlayerInfo>();
+        playerMove = GameObject.Find("Player").GetComponent<PlayerMove>();
+        coinInfo = GameObject.Find("ManageCoin").GetComponent<CoinInfo>();
+
         // setup myNumItem
         if(SaveManage.Instance.GetMyNumItem().Count != 0){
             myNumItem = SaveManage.Instance.GetMyNumItem();
@@ -85,6 +89,7 @@ public class ManageInventory : MonoBehaviour
         inventory.SetActive(false);
         Time.timeScale = 1;
     }
+
     // Item
     public void Item(){
         iUseItem = false;
@@ -169,6 +174,8 @@ public class ManageInventory : MonoBehaviour
                 break;
         }
     }
+
+    //
     public void SetDefaultHP(){
         currentHP = playerInfo.GetCurrentHP();
         int maxHPDefault = SaveManage.Instance.GetMaxHP();
@@ -196,6 +203,8 @@ public class ManageInventory : MonoBehaviour
         coinInfo.SetMagnetCoin(false);
         useMagnet = false;  
     }
+
+    //
     public void CheckTime(){
         if(useSpeed){
             timeSpeedCurrent -= Time.deltaTime;

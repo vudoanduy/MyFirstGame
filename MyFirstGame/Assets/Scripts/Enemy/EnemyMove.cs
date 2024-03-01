@@ -7,28 +7,43 @@ public class EnemyMove : MonoBehaviour
     Animator anim;
     Vector3 vector3;
 
-    float pointA, pointB;
-    float startPosEnemy;
-    public float speed;
-    public float distanceMove;
-    float currentPosEnemy;
-    float currentPoint;
+    float pointA, pointB, startPosEnemy, currentPosEnemy, currentPoint;
+    public float speed, distanceMove;
 
+    //
     void Start(){
-        startPosEnemy = transform.localPosition.x;
-        pointA = startPosEnemy - distanceMove;
-        pointB = startPosEnemy + distanceMove;
-        currentPoint = pointB;
-        vector3 = transform.localScale;
-
-        enemy = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        SetUpStart();
         anim.Play("playerRun");
     }
+
     void Update(){
         Move();
     }
 
+    //
+    public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+    }
+
+    public void SetParameter(){
+        SetPoint();
+        vector3 = transform.localScale;
+    }
+
+    public void InitializatingObject(){
+        enemy = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+    }
+
+    public void SetPoint(){
+        startPosEnemy = transform.localPosition.x;
+        pointA = startPosEnemy - distanceMove;
+        pointB = startPosEnemy + distanceMove;
+        currentPoint = pointB;
+    }
+
+    //
     public void Move(){
         currentPosEnemy = transform.position.x;
         if(currentPoint == pointB){

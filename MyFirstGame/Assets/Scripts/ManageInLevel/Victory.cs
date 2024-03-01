@@ -3,13 +3,23 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Victory : MonoBehaviour
-{
+{   
+    [Header("GameObject")]
     [SerializeField] GameObject victory;
 
     ManageGUILevel manageGUILevel;
 
-
+    //
     void Start(){
+        SetUpStart();
+    }
+
+    //
+    public void SetUpStart(){
+        InitializatingObject();
+    }
+
+    public void InitializatingObject(){
         manageGUILevel = GameObject.Find("ManageGUILevel").GetComponent<ManageGUILevel>();
     }
 
@@ -31,6 +41,7 @@ public class Victory : MonoBehaviour
             SceneManager.LoadScene(Convert.ToString(nextLevel));
         }
     }
+
     //
     public void VictoryLevel(){
         LeanTween.scale(victory, new Vector3(1,1,1), 1f).setDelay(0.25f).setEase(LeanTweenType.linear);

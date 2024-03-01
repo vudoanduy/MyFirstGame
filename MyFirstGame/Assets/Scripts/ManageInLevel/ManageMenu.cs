@@ -3,18 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class ManageMenu : MonoBehaviour
 {
-    [SerializeField] GameObject menuGUI;
-    [SerializeField] GameObject bgMenu;
-    [SerializeField] GameObject settingGUI;
+    [Header("GameObject")]
+    [SerializeField] GameObject menuGUI, bgMenu, settingGUI;
 
+    //
     void Start(){
         SetBool(false);
+        SetUpStart();
+    }
+
+    //
+    public void SetUpStart(){
         settingGUI.SetActive(false);
     }
+
+    //
     public void SetBool(bool active){
         menuGUI.SetActive(active);
         bgMenu.SetActive(active);
     }
+
+    //
     public void Menu(){
         Time.timeScale = 0;
         SetBool(true);

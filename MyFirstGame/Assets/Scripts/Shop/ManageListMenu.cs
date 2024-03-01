@@ -4,10 +4,13 @@ public class ManageListMenu: MonoBehaviour
 {
     ManageShopGUI manageShopGUI;
     
+    //
     void Start()
     {
         manageShopGUI = GameObject.Find("ShopManager").GetComponent<ManageShopGUI>();
     }
+
+    //
     public void Coin(){
         manageShopGUI.SetColor(0);
     }   

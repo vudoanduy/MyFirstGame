@@ -5,40 +5,50 @@ using System;
 
 public class ManageSkin : MonoBehaviour
 {
-    [SerializeField] GameObject listSkin;
-    [SerializeField] TextMeshProUGUI iBuy;
-    [SerializeField] GameObject notifi;
+    [Header("GameObject")]
+    [SerializeField] GameObject listSkin, notifiError, notifi;
 
-    [SerializeField] TextMeshProUGUI notifiText;
-    [SerializeField] GameObject notifiError;
-    [SerializeField] TextMeshProUGUI coinTotalText;
+    [Header("TextMeshProGUI")]
+    [SerializeField] TextMeshProUGUI iBuy, coinTotalText, notifiText;
+
     GameObject[] skins;
 
+    int selectedSkin, selectingSkin, coinTotal;
     public int countSkin;
-    int selectedSkin;
-    int selectingSkin;
-    int coinTotal;
+    int[] defaultCheck = {1,0,0};
+    int[] costSkin = {0,2000,10000,50000};
+
     bool isBuySuccess;
 
     List<int> checkSkin;
-    int[] defaultCheck = {1,0,0};
-    int[] costSkin = {0,2000,10000,50000};
     
-
     Vector3 posStart;
 
+    //
     void Start(){
         SaveManage.Instance.LoadGame();
-        countSkin = listSkin.transform.childCount;
-        coinTotal = SaveManage.Instance.GetCoinTotal();
-        selectedSkin = selectingSkin = SaveManage.Instance.GetSelectedSkin();
-        skins = new GameObject[countSkin];
-        
-        iBuy.text = "Selected";
         SetUpStart();
+        UpdateCoin();
     }
 
+    //
     private void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+    }
+
+    public void SetParameter(){
+        countSkin = listSkin.transform.childCount;
+        coinTotal = SaveManage.Instance.GetCoinTotal();
+        selectedSkin = selectingSkin = SaveManage.Instance.GetSelectedSkin();       
+        iBuy.text = "Selected";
+        notifiError.transform.localScale = Vector3.zero;
+    }
+
+    public void InitializatingObject(){
+        skins = new GameObject[countSkin];
+
+        //
         for(int i = 0; i < countSkin; i++){
             skins[i] = listSkin.transform.GetChild(i).gameObject;
         }
@@ -52,8 +62,6 @@ public class ManageSkin : MonoBehaviour
             SaveManage.Instance.SetCheckSkin(checkSkin);
         }
         notifi.SetActive(false);
-        UpdateCoin();
-        notifiError.transform.localScale = Vector3.zero;
     }
 
     // Set In/Outside mask

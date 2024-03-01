@@ -4,7 +4,10 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
+    [Header("TextMeshProGUI")]
     [SerializeField] TextMeshProUGUI hpInfo;
+
+    [Header("Image")]
     [SerializeField] Image hpImg;
 
     ManageMusic manageMusic;
@@ -14,34 +17,53 @@ public class PlayerInfo : MonoBehaviour
     Victory victory;
     PlayerMove playerMove;
 
-    protected int maxHP;
-    protected int currentHP; // Money the player actually owns
+    protected int maxHP, currentHP;
+
     bool iImmortal;
 
 
     void Start(){
+        SetUpStart();
+        UpdateHP();
+    }
+
+    //
+    public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+    }
+
+    public void SetParameter(){
+        currentHP = maxHP = SaveManage.Instance.GetMaxHP();
+    }
+
+    public void InitializatingObject(){
         manageMusic = GameObject.Find("ManageAudio").GetComponent<ManageMusic>();
         manageGUILevel = GameObject.Find("ManageGUILevel").GetComponent<ManageGUILevel>();
         coinInfo = GameObject.Find("ManageCoin").GetComponent<CoinInfo>();
         victory = GameObject.Find("Victory").GetComponent<Victory>();
         manageMenu = GameObject.Find("ManageMenu").GetComponent<ManageMenu>();
         playerMove = GetComponent<PlayerMove>();
-        currentHP = maxHP = SaveManage.Instance.GetMaxHP();
-        UpdateHP();
     }
 
-    void Update(){
-        
+    //
+    void OnCollisionEnter2D(Collision2D other){
+        if(other.gameObject.tag == "Enemy"){
+            if(iImmortal) return;
+            SetCurrentHP(currentHP - 2);
+            SetOnImmortal();
+            Invoke("SetOffImmortal", 2);
+        }
+        if(other.gameObject.tag == "water"){
+            if(iImmortal) return;
+            SetCurrentHP(currentHP - 1);
+            SetOnImmortal();
+            Invoke("SetOffImmortal", 2);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other){
         switch(other.gameObject.tag){
-            case "Enemy":
-                if(iImmortal) return;
-                SetCurrentHP(currentHP - 3);
-                SetOnImmortal();
-                Invoke("SetOffImmortal", 2);
-                break;
             case "Coin":
                 manageMusic.CollectCoin();
                 Destroy(other.gameObject);
@@ -89,6 +111,7 @@ public class PlayerInfo : MonoBehaviour
         this.iImmortal = false;
     }
 
+    //
     public int GetCurrentHP(){
         return this.currentHP;
     }
@@ -99,6 +122,7 @@ public class PlayerInfo : MonoBehaviour
         return this.iImmortal;
     }
 
+    //
     public void RestoreHP(int num){
         currentHP += num;
         if(currentHP > maxHP){

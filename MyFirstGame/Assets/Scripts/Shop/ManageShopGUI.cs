@@ -1,17 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class ManageShopGUI : MonoBehaviour
 {
+    [Header("GameObject")]
     [SerializeField] GameObject obj;
 
     Image[] listImg;
-    GameObject[] listMenu;
-    GameObject[] listScroll;
-    GameObject[] listItem;
+    GameObject[] listMenu, listScroll, listItem;
 
     int childCount;
 
@@ -19,16 +16,27 @@ public class ManageShopGUI : MonoBehaviour
 
 
     void Start(){
+        SetUpStart();
+        SetColor(0);
+    }
+
+    //
+    public void SetUpStart(){
+        SetParameter();
+        InitializatingObject();
+    }
+
+    public void SetParameter(){
         childCount = obj.transform.childCount;
+    }
+
+    public void InitializatingObject(){
         listImg = new Image[childCount];
         listMenu = new GameObject[childCount];
         listScroll = new GameObject[childCount];
         listItem = new GameObject[childCount];
         startPosItem = new Vector3[childCount];
-        SetUpStart();
-        SetColor(0);
-    }
-    public void SetUpStart(){
+
         // Lay gameObject cua thang con
         for(int i = 0; i < childCount; i++){
             listMenu[i] = obj.transform.GetChild(i).gameObject;
@@ -43,6 +51,8 @@ public class ManageShopGUI : MonoBehaviour
             startPosItem[i] = new Vector3(width / 2, 0, 0);
         }
     }
+
+    //
     public void SetColor(int index){
         for(int i = 0; i < childCount; i++){
             if(i == index){
