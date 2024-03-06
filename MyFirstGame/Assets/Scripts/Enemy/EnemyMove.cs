@@ -16,7 +16,7 @@ public class EnemyMove : MonoBehaviour
         anim.Play("playerRun");
     }
 
-    void Update(){
+    void FixedUpdate(){
         Move();
     }
 

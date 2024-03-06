@@ -10,6 +10,9 @@ public class PlayerInfo : MonoBehaviour
     [Header("Image")]
     [SerializeField] Image hpImg;
 
+    [Header("GameObject")]
+    [SerializeField] GameObject shield;
+
     ManageMusic manageMusic;
     ManageGUILevel manageGUILevel;
     ManageMenu manageMenu;
@@ -44,6 +47,8 @@ public class PlayerInfo : MonoBehaviour
         victory = GameObject.Find("Victory").GetComponent<Victory>();
         manageMenu = GameObject.Find("ManageMenu").GetComponent<ManageMenu>();
         playerMove = GetComponent<PlayerMove>();
+
+        shield.gameObject.SetActive(false);
     }
 
     //
@@ -51,6 +56,12 @@ public class PlayerInfo : MonoBehaviour
         if(other.gameObject.tag == "Enemy"){
             if(iImmortal) return;
             SetCurrentHP(currentHP - 2);
+            SetOnImmortal();
+            Invoke("SetOffImmortal", 2);
+        }
+        if(other.gameObject.tag == "Monster"){
+            if(iImmortal) return;
+            SetCurrentHP(currentHP - 1);
             SetOnImmortal();
             Invoke("SetOffImmortal", 2);
         }
@@ -76,6 +87,18 @@ public class PlayerInfo : MonoBehaviour
                 Destroy(playerMove);
                 manageMenu.SetBool(false);
                 break;
+            case "Ray":
+                if(iImmortal) return;
+                SetCurrentHP(currentHP - 2);
+                SetOnImmortal();
+                Invoke("SetOffImmortal", 2);
+                break;
+            case "Monster":
+                if(iImmortal) return;
+                SetCurrentHP(currentHP - 1);
+                SetOnImmortal();
+                Invoke("SetOffImmortal", 2);
+                break;
             default:
                 break;
         }
@@ -90,7 +113,7 @@ public class PlayerInfo : MonoBehaviour
     }
     // HP
     public void SetCurrentHP(int currentHP){
-        if(currentHP < 0){
+        if(currentHP <= 0){
             currentHP = 0;
             gameObject.SetActive(false);
             Debug.Log("Game Over");
@@ -106,9 +129,11 @@ public class PlayerInfo : MonoBehaviour
     }
     public void SetOnImmortal(){
         this.iImmortal = true;
+        shield.gameObject.SetActive(true);
     }
     public void SetOffImmortal(){
         this.iImmortal = false;
+        shield.gameObject.SetActive(false);
     }
 
     //

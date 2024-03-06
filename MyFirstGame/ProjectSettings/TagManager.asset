@@ -11,6 +11,9 @@ TagManager:
   - Block
   - NoticeBoard
   - water
+  - GateTele
+  - Ray
+  - Monster
   layers:
   - Default
   - TransparentFX

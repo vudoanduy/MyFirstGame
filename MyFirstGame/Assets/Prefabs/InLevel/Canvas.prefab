@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 8684174193783495014}
   - component: {fileID: 4664268484492357414}
   m_Layer: 5
-  m_Name: hpInfo
+  m_Name: hpImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2600,7 +2600,7 @@ GameObject:
   - component: {fileID: 1451764390302511061}
   - component: {fileID: 7435465851027407497}
   m_Layer: 5
-  m_Name: hpPlayer
+  m_Name: hpInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

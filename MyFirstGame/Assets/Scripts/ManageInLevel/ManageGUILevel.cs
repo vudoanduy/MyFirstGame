@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,8 +28,16 @@ public class ManageGUILevel : MonoBehaviour
 
     public void SetParameter(){
         nameLevel = SceneManager.GetActiveScene().name;
-        levelCurrent = Convert.ToInt32(nameLevel);
-        maxHP =SaveManage.Instance.GetMaxHP();
+
+        bool hasNonDigit = nameLevel.Any(c => !char.IsDigit(c));
+
+        if(hasNonDigit){
+            nameLevel = nameLevel.Substring(0,nameLevel.Count()-1);
+        }
+
+        levelCurrent = int.Parse(nameLevel);
+
+        maxHP = SaveManage.Instance.GetMaxHP();
     }
 
     public void InitializatingObject(){
@@ -50,7 +59,7 @@ public class ManageGUILevel : MonoBehaviour
         playerInfo.SetCurrentHP(maxHP);
     }
 
-    //
+    
     public int GetLevelCurrent(){
         return this.levelCurrent;
     }

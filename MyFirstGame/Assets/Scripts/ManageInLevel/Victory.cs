@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class Victory : MonoBehaviour
 {   
+
     [Header("GameObject")]
     [SerializeField] GameObject victory;
 
     ManageGUILevel manageGUILevel;
 
-    //
     void Start(){
         SetUpStart();
     }
@@ -29,7 +29,8 @@ public class Victory : MonoBehaviour
     }
 
     public void Replay(){
-        SceneManager.LoadScene(manageGUILevel.GetNameLevel());
+        TransitionScene.Instance.TransScene(manageGUILevel.GetNameLevel());
+        
     }
 
     public void Next(){
@@ -38,7 +39,7 @@ public class Victory : MonoBehaviour
             SceneManager.LoadScene("ManageLevel");
         } else {
             int nextLevel = manageGUILevel.GetLevelCurrent() + 1;
-            SceneManager.LoadScene(Convert.ToString(nextLevel));
+            TransitionScene.Instance.TransScene(Convert.ToString(nextLevel));
         }
     }
 

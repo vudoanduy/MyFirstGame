@@ -77,7 +77,7 @@ public class ManageLevel : MonoBehaviour
     //
     public void SetScene(){
        string s =  EventSystem.current.currentSelectedGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
-       SceneManager.LoadScene(s); 
+       TransitionScene.Instance.TransScene(s);
     }
 
     public void UnlockLevel(int maxLevelCurrent){

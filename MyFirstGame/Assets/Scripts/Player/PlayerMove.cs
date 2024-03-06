@@ -19,7 +19,6 @@ public class PlayerMove : MonoBehaviour
 
     [Header("LayerMask")]
     [SerializeField] LayerMask Ground;
-    [SerializeField] LayerMask Board;
 
 
     private int countJump = 0;

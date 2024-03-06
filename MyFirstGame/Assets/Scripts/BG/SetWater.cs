@@ -17,7 +17,6 @@ public class SetWater : MonoBehaviour
             GameObject newWater = Instantiate(waterChild);
             newWater.transform.position = waterChild.transform.position + Vector3.right * 1.28f * (i+1);
             newWater.transform.SetParent(water.transform);
-            // waterChild.gameObject.GetComponent<Renderer>().material
         }
     }
 
